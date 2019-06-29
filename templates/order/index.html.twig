@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Order list{% endblock %}
+
+{% block body %}
+    Listes des commandes
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Numéro</th>
+                <th>MarketPlace</th>
+                <th>Id Flux</th>
+                <th>Order Item</th>
+                <th>Order Id</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, order in list_order %}
+                <tr>
+                    <td>Commande {{ key + 1 }} </td>
+                    <td>{{ order.marketplace }}<td>
+                    <td>{{ order.idFlux }}<td>
+                    <td>{{ order.order_items }}<td>
+                    <td>{{ order.order_id }}<td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
