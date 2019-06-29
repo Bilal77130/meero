@@ -2,13 +2,11 @@
 
 namespace App\Command;
 
-use App\Entity\Order;
+use App\Entity\Commande;
 use App\Services\ListOrder;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -36,8 +34,8 @@ class OrdersGetListCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $orders = $this->listOrder->getOrders();
 
-        foreach ($orders as $k => $order) {
-            $oOrder = new Order();
+        foreach ($orders as $order) {
+            $oOrder = new Commande();
             if (is_string($order['marketplace']) && $order['marketplace']) {
                 $oOrder->setMarketplace($order['marketplace']);
             }
@@ -45,14 +43,17 @@ class OrdersGetListCommand extends Command
                 $oOrder->setIdFlux($order['idFlux']);
             }
             if (is_string($order['order_items']) && $order['order_items']) {
-                $oOrder->setOrderStatus($order['order_items']);
+                $oOrder->setOrderItem($order['order_items']);
             }
             if (is_string($order['order_id']) && $order['order_id']) {
-                $oOrder->setOrderId($order['order_id']);
+                $oOrder->setOrderStatus($order['order_id']);
             }
+
             $this->em->persist($oOrder);
         }
+
         $this->em->flush();
+
 
         $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
     }
